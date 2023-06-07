@@ -2,7 +2,7 @@
 This repository contains instructions needed to recreate the benchmark detailed in the paper _Learning Human Action Recognition Representations
 Without Real Humans_. Specifically, we discuss how to download the two pretraining datasets and six downstream evaluation datasets.
 
-![sds](.github/main_figure.png "Main Figure")
+![sds](../.github/main_figure.png "Main Figure")
 *Fig 1: Schematic of Benchmark*
 
 ## Pretraining Datasets
