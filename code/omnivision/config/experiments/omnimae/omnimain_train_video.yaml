@@ -1,0 +1,70 @@
+# @package _global_
+num_frames: 16
+batch_size: 16
+num_workers: 10
+epochs: 300
+video_labels: 400
+#accum_step: 1
+lr_scale_factor: 1 #assume bsize=4096
+pretrained_checkpoint_path: ???
+
+
+
+
+defaults:
+  - /experiments/base.yaml
+  - /trainer/model: vitbase.yaml
+  - /trainer/checkpoint: default.yaml
+#  - trainer: k200_config.yaml MISSING ARG
+  - _self_
+
+launcher:
+  gpus_per_node: ???
+  num_nodes: ???
+
+trainer:
+  max_epochs: ${epochs}
+
+  distributed:
+    comms_dtype: float16 # NULL, float16, bfloat16
+
+
+  optim:
+    gradient_clip: NULL
+    amp:
+      enabled: True
+      amp_dtype: float16 # bfloat16 or float16
+
+    optimizer:
+      _target_: torch.optim.AdamW
+      betas: [ 0.9, 0.95 ]
+    options:
+      lr:
+        - scheduler:
+            _target_: fvcore.common.param_scheduler.CompositeParamScheduler
+            schedulers:
+              - _target_: fvcore.common.param_scheduler.LinearParamScheduler
+                start_value: 1e-6/${lr_scale_factor}
+                end_value: 1.6e-3/${lr_scale_factor}  # 8e-4 in orig config
+              - _target_: fvcore.common.param_scheduler.CosineParamScheduler
+                start_value: ${..0.end_value}/${lr_scale_factor}
+                end_value: 0.0/${lr_scale_factor}
+            lengths: [ 0.05, 0.95 ]  # warm for 40 epochs
+            interval_scaling: [ 'rescaled', 'fixed' ]
+      weight_decay:
+        - scheduler:
+            _target_: fvcore.common.param_scheduler.ConstantParamScheduler
+            value: 0.05
+        - scheduler:
+            _target_: fvcore.common.param_scheduler.ConstantParamScheduler
+            value: 0.0
+          param_names:
+            - '*.bias'
+          module_cls_names: [ 'torch.nn.LayerNorm' ]
+  logging:
+    tensorboard_writer:
+      _target_: omnivision.logger.make_tensorboard_logger
+      log_dir: ${launcher.experiment_log_dir}/tensorboard
+      flush_secs: 120
+    log_dir: ${launcher.experiment_log_dir}/logs
+    log_freq: 100

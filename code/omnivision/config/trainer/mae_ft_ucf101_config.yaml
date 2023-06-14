@@ -1,0 +1,150 @@
+data:
+  train:
+    _target_: omnivision.data.torch_dataset.TorchDataset
+    dataset:
+      _target_: omnivision.data.path_dataset.VideoPathDataset
+      path_file_list:
+        - ${ucf101_train_vids_path}
+      label_file_list:
+        - ${ucf101_train_labels_path}
+      new_prefix: ${ucf101_prefix}
+      clip_sampler:
+        _target_: pytorchvideo.data.clip_sampling.RandomClipSampler
+        clip_duration: 2.7
+      frame_sampler:
+        _target_: pytorchvideo.transforms.UniformTemporalSubsample
+        num_samples: ${num_frames}
+      decoder: pyav
+      normalize_to_0_1: True
+      transforms:
+        - _target_: omnivision.data.transforms.transform_wrappers.VisionTransform
+          base_transform:
+            _target_: torchvision.transforms.Compose
+            transforms:
+            - _target_: pytorchvideo.transforms.ShortSideScale
+              size: 256
+            - _target_: torchvision.transforms.RandomResizedCrop
+              size: 224
+            # - _target_: torchvision.transforms.RandomHorizontalFlip
+            #   p: 0.5
+            - _target_: omnivision.data.transforms.basic.Permute
+              ordering: [1, 0, 2, 3]  # C,T,H,W -> T,C,H,W for RandAug
+            - _target_: pytorchvideo.transforms.RandAugment
+              magnitude: 7
+              num_layers: 4
+              prob: 0.5
+            - _target_: omnivision.data.transforms.basic.Permute
+              ordering: [1, 0, 2, 3]  # T,C,H,W -> C,T,H,W after RandAug
+            - _target_: torchvision.transforms._transforms_video.NormalizeVideo
+              mean: [0.485, 0.456, 0.406]
+              std: [0.229, 0.224, 0.225]
+            - _target_: omnivision.data.transforms.basic.Permute
+              ordering: [1, 0, 2, 3]  # C,T,H,W -> T,C,H,W for cube RandErase over batch(time) dim
+            - _target_: omnivision.data.transforms.video_random_erasing.RandomErasing
+              probability: 0.25
+              mode: pixel
+              max_count: 1
+              num_splits: 1
+              cube: True
+              device: cpu
+            - _target_: omnivision.data.transforms.basic.Permute
+              ordering: [1, 0, 2, 3]  # C,T,H,W -> T,C,H,W after RandErase
+    shuffle: True
+    batch_size: ${batch_size}
+    num_workers: ${num_workers}
+    pin_memory: True
+    drop_last: True
+    collate_fn:
+      _target_: omnivision.data.api.DefaultOmnivoreCollator
+      output_key: ftucf101
+      batch_transforms:
+        - _target_: omnivision.data.transforms.cutmixup.CutMixUp
+          mixup_alpha: 0.8 # mixup alpha value, mixup is active if > 0.
+          cutmix_alpha: 1.0 # cutmix alpha value, cutmix is active if > 0.
+          prob: 1.0 # probability of applying mixup or cutmix per batch or element
+          switch_prob: 0.5 # probability of switching to cutmix instead of mixup when both are active
+          mode: batch # how to apply mixup/cutmix params (per 'batch', 'pair' (pair of elements), 'elem' (element)
+          correct_lam: True # apply lambda correction when cutmix bbox clipped by image borders
+          label_smoothing: 0.1 # apply label smoothing to the mixed target tensor
+          num_classes: 101 # number of classes for target
+    worker_init_fn: NULL
+  val:
+    _target_: omnivision.data.torch_dataset.TorchDataset
+    dataset:
+      _target_: omnivision.data.path_dataset.VideoPathDataset
+      path_file_list:
+        - ${ucf101_val_vids_path}
+      label_file_list:
+        - ${ucf101_val_labels_path}
+      new_prefix: ${ucf101_prefix}
+      clip_sampler:
+        _target_: pytorchvideo.data.clip_sampling.ConstantClipsPerVideoSampler
+        clip_duration: ${trainer.data.train.dataset.clip_sampler.clip_duration}
+        clips_per_video: 2
+      frame_sampler:
+        _target_: pytorchvideo.transforms.UniformTemporalSubsample
+        num_samples: ${trainer.data.train.dataset.frame_sampler.num_samples}
+      decoder: ${trainer.data.train.dataset.decoder}
+      normalize_to_0_1: ${trainer.data.train.dataset.normalize_to_0_1}
+      transforms:
+        - _target_: torchvision.transforms.Compose
+          transforms:
+            # Not splitting into multiple sample objects to keep the crops of one video
+            # in 1 sigle Sample object
+            - _target_: omnivision.data.transforms.transform_wrappers.VisionTransform
+              base_transform:
+                _target_: omnivision.data.transforms.transform_wrappers.ListTransform
+                base_transform:
+                  _target_: pytorchvideo.transforms.ShortSideScale
+                  size: 224
+            - _target_: omnivision.data.transforms.transform_wrappers.VisionTransform
+              base_transform:
+                _target_: omnivision.data.transforms.transform_wrappers.ListTransform
+                base_transform:
+                  _target_: torchvision.transforms._transforms_video.NormalizeVideo
+                  mean: ${trainer.data.train.dataset.transforms.0.base_transform.transforms.5.mean}
+                  std: ${trainer.data.train.dataset.transforms.0.base_transform.transforms.5.std}
+            - _target_: omnivision.data.transforms.transform_wrappers.VisionTransform
+              base_transform:
+                _target_: omnivision.data.transforms.transform_wrappers.ListTransform
+                base_transform:
+                  _target_: omnivision.data.transforms.basic.SpatialCrop
+                  crop_size: 224
+                  num_crops: 3
+            # Each sample now has a list in the .data object, so convert into sublists
+            - _target_: omnivision.data.transforms.transform_wrappers.VisionTransform
+              base_transform:
+                _target_: omnivision.data.transforms.transform_wrappers.FlattenListOfList
+    shuffle: False
+    batch_size: 1
+    num_workers: ${num_workers}
+    pin_memory: True
+    drop_last: True
+    collate_fn:
+      _target_: omnivision.data.api.DefaultOmnivoreCollator
+      output_key: ftucf101
+    worker_init_fn: NULL
+
+metrics:
+  train:
+    ftucf101:
+      accuracy_top1:
+        _target_: omnivision.metrics.avg_pooled_accuracy_list_meter.AvgPooledAccuracyListMeter
+        top_k: 1
+      accuracy_top5:
+        _target_: omnivision.metrics.avg_pooled_accuracy_list_meter.AvgPooledAccuracyListMeter
+        top_k: 5
+  val:
+    ftucf101:
+      accuracy_top1:
+        _target_: omnivision.metrics.avg_pooled_accuracy_list_meter.AvgPooledAccuracyListMeter
+        top_k: 1
+      accuracy_top5:
+        _target_: omnivision.metrics.avg_pooled_accuracy_list_meter.AvgPooledAccuracyListMeter
+        top_k: 5
+
+loss:
+  ftucf101:
+    _target_: omnivision.losses.cross_entropy_multiple_output_single_target.CrossEntropyMultipleOutputSingleTargetLoss
+    ignore_index: -1
+    update_output_apply_activation: True

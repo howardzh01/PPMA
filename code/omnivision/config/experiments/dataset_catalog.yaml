@@ -1,0 +1,88 @@
+# @package _global_
+
+k150_train_vids_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150_1000e_train.npy
+k150_train_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150_1000e_train_labels.npy
+k150_val_vids_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150val.npy
+k150_val_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150val_labels.npy
+k150_prefix: "/dccstor/multimodalvideo/kinetics-qf/" # Use this variable to prepend additional path for the data. Otherwise, leave it empty.
+
+inpk150_train_vids_path: /dccstor/lwll_data/omnivore/splits/inpk150/inpk150_train.npy
+inpk150_train_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150_1000e_train_labels.npy
+inpk150_val_vids_path: /dccstor/lwll_data/omnivore/splits/inpk150/inpk150_val.npy
+inpk150_val_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150val_labels.npy
+inpk150_prefix: "/dccstor/lwll_data/HAT/data/kinetics150/" # Use this variable to prepend additional path for the data. Otherwise, leave it empty.
+
+sim150_train_vids_path: /dccstor/lwll_data/omnivore/splits/sim150/sim150_1000e_train.npy
+sim150_train_labels_path: /dccstor/lwll_data/omnivore/splits/sim150/sim150_1000e_train_labels.npy
+sim150_val_vids_path: /dccstor/lwll_data/omnivore/splits/sim150/sim150_val.npy
+sim150_val_labels_path: /dccstor/lwll_data/omnivore/splits/sim150/sim150_val_labels.npy
+sim150_prefix: "" # Use this variable to prepend additional path for the data. Otherwise, leave it empty.
+
+ucf101_train_vids_path: /dccstor/lwll_data/omnivore/splits/ucf101/train.npy
+ucf101_train_labels_path: /dccstor/lwll_data/omnivore/splits/ucf101/train_labels.npy
+ucf101_val_vids_path: /dccstor/lwll_data/omnivore/splits/ucf101/val.npy
+ucf101_val_labels_path: /dccstor/lwll_data/omnivore/splits/ucf101/val_labels.npy
+ucf101_prefix: "/dccstor/lwll_data/data/UCF101/frame/"
+
+hmdb51_train_vids_path:  /dccstor/lwll_data/omnivore/splits/hmdb51/hmdb_train.npy
+hmdb51_train_labels_path: /dccstor/lwll_data/omnivore/splits/hmdb51/hmdb_train_labels.npy
+hmdb51_val_vids_path: /dccstor/lwll_data/omnivore/splits/hmdb51/hmdb_val.npy
+hmdb51_val_labels_path: /dccstor/lwll_data/omnivore/splits/hmdb51/hmdb_val_labels.npy
+hmdb51_prefix: "/dccstor/multimodalvideo/HMDB51/frame/"
+
+diving48_train_vids_path:  /dccstor/lwll_data/omnivore/splits/diving48/train_frames.npy
+diving48_train_labels_path: /dccstor/lwll_data/omnivore/splits/diving48/train_labels.npy
+diving48_val_vids_path: /dccstor/lwll_data/omnivore/splits/diving48/val_frames.npy
+diving48_val_labels_path: /dccstor/lwll_data/omnivore/splits/diving48/val_labels.npy
+diving48_prefix: "/dccstor/lwll_data/data/diving/frames/"
+
+minissv2_train_vids_path:  /dccstor/lwll_data/omnivore/splits/mini_ssv2/train.npy
+minissv2_train_labels_path: /dccstor/lwll_data/omnivore/splits/mini_ssv2/train_labels.npy
+minissv2_val_vids_path: /dccstor/lwll_data/omnivore/splits/mini_ssv2/val.npy
+minissv2_val_labels_path: /dccstor/lwll_data/omnivore/splits/mini_ssv2/val_labels.npy
+minissv2_prefix: "/dccstor/multimodalvideo/something2something-v2/"
+
+ikea_train_vids_path:  /dccstor/lwll_data/omnivore/splits/ikea_furniture/train_frames.npy
+ikea_train_labels_path: /dccstor/lwll_data/omnivore/splits/ikea_furniture/train_labels.npy
+ikea_val_vids_path: /dccstor/lwll_data/omnivore/splits/ikea_furniture/val_frames.npy
+ikea_val_labels_path: /dccstor/lwll_data/omnivore/splits/ikea_furniture/val_labels.npy
+ikea_prefix: "/dccstor/lwll_data/data/ikea_furniture/frames/"
+
+uav_train_vids_path:  /dccstor/lwll_data/omnivore/splits/uav/train_frames.npy
+uav_train_labels_path: /dccstor/lwll_data/omnivore/splits/uav/train_labels.npy
+uav_val_vids_path: /dccstor/lwll_data/omnivore/splits/uav/val_frames.npy
+uav_val_labels_path: /dccstor/lwll_data/omnivore/splits/uav/val_labels.npy
+uav_prefix: "/dccstor/lwll_data/data/uav/frames/"
+
+ucf101_train_train_vids_path: /dccstor/lwll_data/omnivore/val_splits/ucf101/train.npy
+ucf101_train_train_labels_path: /dccstor/lwll_data/omnivore/val_splits/ucf101/train_labels.npy
+ucf101_train_val_vids_path: /dccstor/lwll_data/omnivore/val_splits/ucf101/val.npy
+ucf101_train_val_labels_path: /dccstor/lwll_data/omnivore/val_splits/ucf101/val_labels.npy
+
+hmdb51_train_train_vids_path:  /dccstor/lwll_data/omnivore/val_splits/hmdb51/hmdb_train.npy
+hmdb51_train_train_labels_path: /dccstor/lwll_data/omnivore/val_splits/hmdb51/hmdb_train_labels.npy
+hmdb51_train_val_vids_path: /dccstor/lwll_data/omnivore/val_splits/hmdb51/hmdb_val.npy
+hmdb51_train_val_labels_path: /dccstor/lwll_data/omnivore/val_splits/hmdb51/hmdb_val_labels.npy
+
+diving48_train_train_vids_path:  /dccstor/lwll_data/omnivore/val_splits/diving48/train_frames.npy
+diving48_train_train_labels_path: /dccstor/lwll_data/omnivore/val_splits/diving48/train_labels.npy
+diving48_train_val_vids_path: /dccstor/lwll_data/omnivore/val_splits/diving48/val_frames.npy
+diving48_train_val_labels_path: /dccstor/lwll_data/omnivore/val_splits/diving48/val_labels.npy
+
+minissv2_train_train_vids_path:  /dccstor/lwll_data/omnivore/val_splits/mini_ssv2/train.npy
+minissv2_train_train_labels_path: /dccstor/lwll_data/omnivore/val_splits/mini_ssv2/train_labels.npy
+minissv2_train_val_vids_path: /dccstor/lwll_data/omnivore/val_splits/mini_ssv2/val.npy
+minissv2_train_val_labels_path: /dccstor/lwll_data/omnivore/val_splits/mini_ssv2/val_labels.npy
+
+ikea_train_train_vids_path:  /dccstor/lwll_data/omnivore/val_splits/ikea_furniture/train_frames.npy
+ikea_train_train_labels_path: /dccstor/lwll_data/omnivore/val_splits/ikea_furniture/train_labels.npy
+ikea_train_val_vids_path: /dccstor/lwll_data/omnivore/val_splits/ikea_furniture/val_frames.npy
+ikea_train_val_labels_path: /dccstor/lwll_data/omnivore/val_splits/ikea_furniture/val_labels.npy
+
+uav_train_train_vids_path:  /dccstor/lwll_data/omnivore/val_splits/uav/train_frames.npy
+uav_train_train_labels_path: /dccstor/lwll_data/omnivore/val_splits/uav/train_labels.npy
+uav_train_val_vids_path: /dccstor/lwll_data/omnivore/val_splits/uav/val_frames.npy
+uav_train_val_labels_path: /dccstor/lwll_data/omnivore/val_splits/uav/val_labels.npy
+
+
+

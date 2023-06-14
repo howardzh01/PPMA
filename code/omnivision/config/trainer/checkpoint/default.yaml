@@ -1,0 +1,3 @@
+save_dir: ${launcher.experiment_log_dir}/checkpoints
+save_freq: 50 # 0 only last checkpoint is saved.
+model_weight_initializer: NULL

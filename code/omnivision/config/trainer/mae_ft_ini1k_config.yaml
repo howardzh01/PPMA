@@ -1,0 +1,102 @@
+data:
+  train:
+    _target_: omnivision.data.torch_dataset.TorchDataset
+    dataset:
+      _target_: omnivision.data.path_dataset.ImagePathDataset
+      path_file_list:
+        - ${in1k_train_imgs_path}
+      label_file_list:
+        - ${in1k_train_labels_path}
+      new_prefix: ${in1k_prefix}
+      transforms:
+        - _target_: omnivision.data.transforms.transform_wrappers.VisionTransform
+          base_transform:
+            _target_: torchvision.transforms.Compose
+            transforms:
+              - _target_: torchvision.transforms.RandomResizedCrop
+                size: 224
+                interpolation: 3
+              - _target_: torchvision.transforms.RandomHorizontalFlip
+              - _target_: omnivision.data.transforms.rand_auto_aug.RandAugment  # Essentially autoagument rand-m9-mstd0.5-inc1
+                magnitude: 9
+                magnitude_std: 0.5
+                increasing_severity: True
+              - _target_: torchvision.transforms.ToTensor
+              - _target_: torchvision.transforms.RandomErasing
+                p: .25
+              - _target_: torchvision.transforms.Normalize
+                mean: [0.485, 0.456, 0.406]
+                std: [0.229, 0.224, 0.225]
+    shuffle: True
+    batch_size: 32
+    num_workers: 10
+    pin_memory: True
+    drop_last: True
+    collate_fn:
+      _target_: omnivision.data.api.DefaultOmnivoreCollator
+      output_key: in1k
+      batch_transforms:
+      - _target_: omnivision.data.transforms.cutmixup.CutMixUp
+        mixup_alpha: 0.8 # mixup alpha value, mixup is active if > 0.
+        cutmix_alpha: 1.0 # cutmix alpha value, cutmix is active if > 0.
+        prob: 1.0 # probability of applying mixup or cutmix per batch or element
+        switch_prob: 0.5 # probability of switching to cutmix instead of mixup when both are active
+        mode: batch # how to apply mixup/cutmix params (per 'batch', 'pair' (pair of elements), 'elem' (element)
+        correct_lam: True # apply lambda correction when cutmix bbox clipped by image borders
+        label_smoothing: 0.1 # apply label smoothing to the mixed target tensor
+        num_classes: 1000 # number of classes for target
+    worker_init_fn: NULL
+  val:
+    _target_: omnivision.data.torch_dataset.TorchDataset
+    dataset:
+      _target_: omnivision.data.path_dataset.ImagePathDataset
+      path_file_list:
+        - ${in1k_val_imgs_path}
+      label_file_list:
+        - ${in1k_val_labels_path}
+      new_prefix: ${in1k_prefix}
+      transforms:
+        - _target_: omnivision.data.transforms.transform_wrappers.VisionTransform
+          base_transform:
+            _target_: torchvision.transforms.Compose
+            transforms:
+              - _target_: torchvision.transforms.Resize
+                size: 224
+                interpolation: 3
+              - _target_: torchvision.transforms.CenterCrop
+                size: 224
+              - _target_: torchvision.transforms.ToTensor
+              - _target_: torchvision.transforms.Normalize
+                mean: [0.485, 0.456, 0.406]
+                std: [0.229, 0.224, 0.225]
+    shuffle: False
+    batch_size: ${batch_size}
+    num_workers: ${num_workers}
+    pin_memory: True
+    drop_last: True
+    collate_fn:
+      _target_: omnivision.data.api.DefaultOmnivoreCollator
+      output_key: in1k
+    worker_init_fn: NULL
+
+metrics:
+  train:
+    in1k:
+      accuracy_top1:
+        _target_: omnivision.metrics.accuracy.Accuracy
+        top_k: 1
+      accuracy_top5:
+        _target_: omnivision.metrics.accuracy.Accuracy
+        top_k: 5
+  val:
+    in1k:
+      accuracy_top1:
+        _target_: omnivision.metrics.accuracy.Accuracy
+        top_k: 1
+      accuracy_top5:
+        _target_: omnivision.metrics.accuracy.Accuracy
+        top_k: 5
+
+loss:
+  in1k:
+    _target_: torch.nn.CrossEntropyLoss

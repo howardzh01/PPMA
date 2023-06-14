@@ -1,0 +1,10 @@
+save_dir: ${launcher.experiment_log_dir}/checkpoints
+save_freq: 50 # 0 only last checkpoint is saved.
+model_weight_initializer:
+  _partial_: True
+  _target_: omnivision.model.checkpoint_utils.load_state_dict_into_model
+  strict: False # heads aren't loaded
+  state_dict:
+    _target_: omnivision.model.checkpoint_utils.load_checkpoint_and_apply_kernels
+    checkpoint_path: ${pretrained_checkpoint_path}
+    ckpt_state_dict_key: model
