@@ -1,5 +1,6 @@
 # Perform Adaptive Average Downstream LP on ucf101.
 # PRETRAINED_CHECKPOINT must be specified and should contain an array of two model weight dictionaries.
+# Eg. PRETRAINED_CHECKPOINT=vitb_b128_ep200_ensemble_sim_inpk150_checkpoint_50_labels.pt
 
 BATCH_SIZE=32 && NUM_NODES=4 && NOMINAL_BATCH=32 && PRETRAINED_CHECKPOINT=??? && EXP_DIR=??? &&
 python train_app_submitit.py hydra.job.chdir=False hydra.output_subdir=null \

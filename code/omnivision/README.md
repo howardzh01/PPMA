@@ -110,3 +110,22 @@ sh utils/run_scripts/run_downstream_adaptive_average_lp.sh
 
 Pretrained model weights can be found in this [google drive folder](https://drive.google.com/drive/folders/1TY2bovV3QKQjrLGX5w_r26ymr2KlB2pW?usp=sharing).
 
+See table below for mapping of pretraining method to model weight name in the google drive folder. 
+Reference paper for expected downstream performance. NH Kinetics = No-Human Kinetics, which we also refer to as Inpainted Kinetics-150 (inpk150). 
+
+
+| **Step 1: MAE** |    Step 2: Alignment    |              **Pretrained Model Path**             |
+|:---------------:|:-----------------------:|:--------------------------------------------------:|
+|     Kinetics    |         Kinetics        |         vitb_b128_ep200_mae_k150_labels.pt         |
+|   NH Kinetics   | NH Kinetics + Synthetic | vitb_b128_ep200_1inpk150_sim150_0inpk150_labels.pt |
+|   NH Kinetics   |       NH Kinetics       |        vitb_b128_ep200_mae_inpk150_labels.pt       |
+|   NH Kinetics   |        Synthetic        |     vitb_b128_ep200_1sim150_0inpk150_labels,pt     |
+|    Synthetic    |        Synthetic        |        vitb_b128_ep200_mae_sim150_labels.pt        |
+|     Kinetics    |            x            |             vitb_b128_ep200_mae_k150,pt            |
+|   NH Kinetics   |            x            |           vitb_b128_ep200_mae_inpk150.pt           |
+|    Synthetic    |            x            |            vitb_b128_ep200_mae_sim150.pt           |
+
+Note: For each modek, MAE training was for 200 epochs and Alignment was for 50 epochs. 
+
+To get averaging results in the paper, one can average these pretrained weights before downstream evaluation.
+Use `vitb_b128_ep200_ensemble_sim_inpk150_checkpoint_50_labels.pt` for adaptive averaging.
