@@ -78,7 +78,7 @@ Above is an example command. We must specify ```BATCH_SIZE, NUM_NODES, NOMINAL_B
 - We scale learning rate linearly with batch size through `lr_scale_factor`, and changing the `NOMINAL_BATCH` or `BATCH_SIZE` will change the scaling factor.
 - Experiment configurations are found in `experiments=omnimae/omnimain_train_video.yaml.` This includes base learning rate.
 - Model configurations are found in `trainer/model=vitbase.`
-- The data configurations are found in `trainer=mae_k150_config.yaml.`
+- The data configurations are found in `trainer=mae_k150_config.yaml.` One can specify different dataset configs found in `config/trainer`.
 
 
 For stage 1 of MAE pretraining, use
