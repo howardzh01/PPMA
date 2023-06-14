@@ -125,7 +125,7 @@ Reference paper for expected downstream performance. NH Kinetics = No-Human Kine
 |   NH Kinetics   |            x            |           vitb_b128_ep200_mae_inpk150.pt           |
 |    Synthetic    |            x            |            vitb_b128_ep200_mae_sim150.pt           |
 
-Note: For each modek, MAE training was for 200 epochs and Alignment was for 50 epochs. 
+Note: For each model, MAE training was for 200 epochs and Alignment was for 50 epochs. 
 
 To get averaging results in the paper, one can average these pretrained weights before downstream evaluation.
 Use `vitb_b128_ep200_ensemble_sim_inpk150_checkpoint_50_labels.pt` for adaptive averaging.
