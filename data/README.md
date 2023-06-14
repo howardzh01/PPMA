@@ -26,9 +26,7 @@ We use the same Synthetic dataset of 150 classes from SynAPT: https://github.com
 | UAV-Human | https://github.com/sutdcv/UAV-Human                                           |
 
 Note: Mini-SSV2 is a subset of the Something-Something V2 dataset found in the link above. After downloading, you can access the subset used for train and validation in ```splits/mini_ssv2```.
-
+Note 2: IkeaFA and UAV should be resized to 224 x 224 to reduce data loader latency during training. Refer to `splits/resize_ikea_and_uav.py`. 
 
 ## More Information
-- ```splits/``` folder contains train/val splits used to evaluate the models. Files are stored both as txt or csv for readability and npy file of either an array of video path or array of class labels. 
-
-
+- ```splits/``` folder contains train/val splits used to evaluate the models. Files are stored as txt or csv. 

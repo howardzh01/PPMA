@@ -63,7 +63,7 @@ Additionally, update the SLURM config in `config/experiments/base.yaml` to refle
 
 
 
-### OmniMAE
+## OmniMAE
 ```
 python train_app_submitit.py hydra.job.chdir=False hydra.output_subdir=null \
 +experiments=omnimae/omnimain_train_video.yaml \
@@ -101,9 +101,12 @@ For evaluating pretrained models on the downstream tasks through linear probing,
 sh utils/run_scripts/run_downstream_lp.sh
 ```
 
-For evaluating averages of pretrained models on the downstream tasks through linear probing, use
+For evaluating adaptive averages of pretrained models on the downstream tasks through linear probing, use
 ```
-sh utils/run_scripts/run_downstream_average_lp.sh
+sh utils/run_scripts/run_downstream_adaptive_average_lp.sh
 ```
 
+## Pretrained Models
+
+Pretrained model weights can be found in this [google drive folder](https://drive.google.com/drive/folders/1TY2bovV3QKQjrLGX5w_r26ymr2KlB2pW?usp=sharing).
 

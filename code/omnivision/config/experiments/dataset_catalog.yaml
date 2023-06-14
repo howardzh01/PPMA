@@ -1,15 +1,15 @@
 # @package _global_
 
-k150_train_vids_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150_1000e_train.npy
-k150_train_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150_1000e_train_labels.npy
-k150_val_vids_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150val.npy
-k150_val_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150val_labels.npy
+k150_train_vids_path: /dccstor/lwll_data/omnivore/splits/kinetics150/kinetics150_1000e_train.npy
+k150_train_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics150/kinetics150_1000e_train_labels.npy
+k150_val_vids_path: /dccstor/lwll_data/omnivore/splits/kinetics150/kinetics150val.npy
+k150_val_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics150/kinetics150val_labels.npy
 k150_prefix: "/dccstor/multimodalvideo/kinetics-qf/" # Use this variable to prepend additional path for the data. Otherwise, leave it empty.
 
 inpk150_train_vids_path: /dccstor/lwll_data/omnivore/splits/inpk150/inpk150_train.npy
-inpk150_train_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150_1000e_train_labels.npy
+inpk150_train_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics150/kinetics150_1000e_train_labels.npy
 inpk150_val_vids_path: /dccstor/lwll_data/omnivore/splits/inpk150/inpk150_val.npy
-inpk150_val_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics/kinetics150val_labels.npy
+inpk150_val_labels_path: /dccstor/lwll_data/omnivore/splits/kinetics150/kinetics150val_labels.npy
 inpk150_prefix: "/dccstor/lwll_data/HAT/data/kinetics150/" # Use this variable to prepend additional path for the data. Otherwise, leave it empty.
 
 sim150_train_vids_path: /dccstor/lwll_data/omnivore/splits/sim150/sim150_1000e_train.npy
